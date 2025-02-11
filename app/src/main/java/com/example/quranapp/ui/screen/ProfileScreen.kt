@@ -49,7 +49,7 @@ fun ProfileScreen(navController: NavHostController) {
             ProfileMenuItem(title = "Edit Profile") { /* Aksi Edit Profile */ }
 
             ProfileMenuItem(title = "Logout") {
-                navController.navigate("onboarding") // Contoh kembali ke onboarding setelah logout
+                navController.navigate("login") // Contoh kembali ke onboarding setelah logout
             }
         }
     }

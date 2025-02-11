@@ -2,72 +2,79 @@ package com.example.quranapp
 
 import OnboardingScreen
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import androidx.navigation.navArgument
-//import com.example.quranapp.data.api.ApiService
+import com.example.quranapp.data.preferences.UserPreferences
 import com.example.quranapp.data.repository.QuranRepository
-import com.example.quranapp.ui.screen.DetailScreen
-import com.example.quranapp.ui.screen.KalenderScreen
-import com.example.quranapp.ui.screen.ProfileScreen
-//import com.example.quranapp.ui.screen.OnboardingScreen
-import com.example.quranapp.ui.screen.QuranScreen
+import com.example.quranapp.ui.screen.*
 import com.example.quranapp.ui.theme.QuranAppTheme
+import com.example.quranapp.viewmodel.AuthViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Buat instance ApiService
         val apiService = ApiService.create()
-
-        // Buat instance QuranRepository dengan ApiService
         val repository = QuranRepository(apiService)
 
-        setContent {
-            QuranAppTheme {
-                QuranApp(repository = repository)
+        lifecycleScope.launch {
+            val hasSeenOnboarding = UserPreferences(this@MainActivity).getOnboardingStatus().first()
+
+            runOnUiThread {
+                setContent {
+                    QuranAppTheme {
+                        QuranApp(repository = repository, hasSeenOnboarding)
+                    }
+                }
             }
         }
+
     }
 }
 
 @Composable
-fun QuranApp(repository: QuranRepository) {
+fun QuranApp(repository: QuranRepository, hasSeenOnboarding: Boolean) {
     val navController = rememberNavController()
+
+    val startDestination = if (hasSeenOnboarding) "login" else "onboarding"
 
     NavHost(
         navController = navController,
-        startDestination = "onboarding"
+        startDestination = startDestination
     ) {
         composable("onboarding") {
-            OnboardingScreen(navController = navController)
+            OnboardingScreen(navController)
+        }
+        composable("login") {
+            val authViewModel = remember { AuthViewModel() } // Tambahkan ViewModel
+            LoginScreen(navController, authViewModel)
+        }
+        composable("register") {
+            val  authViewModel = remember { AuthViewModel() }
+            RegisterScreen(navController, authViewModel)
         }
         composable("quran") {
-            QuranScreen(navController = navController)
+            QuranScreen(navController)
         }
         composable("kalender") {
-            KalenderScreen(navController = navController)
+            KalenderScreen(navController)
         }
         composable("profile") {
-            ProfileScreen(navController = navController)
+            ProfileScreen(navController)
         }
         composable(
             "SurahDetail/{surahId}",
             arguments = listOf(navArgument("surahId") { type = NavType.IntType })
         ) { backStackEntry ->
             val surahId = backStackEntry.arguments?.getInt("surahId") ?: 1
-            if (surahId > 0) {
-                DetailScreen(navController, surahId)
-            } else {
-                Log.e("MainActivity", "Invalid surah ID: $surahId")
-            }
+            DetailScreen(navController, surahId)
         }
     }
 }

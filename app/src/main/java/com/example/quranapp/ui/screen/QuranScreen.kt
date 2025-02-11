@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.quranapp.ui.component.BottomNavigationBar
 import com.example.quranapp.ui.model.SurahInfo
+import com.example.quranapp.ui.theme.purple
 import com.example.quranapp.ui.viewmodel.QuranViewModel
 import com.google.android.material.tabs.TabItem
 
@@ -35,7 +36,7 @@ fun QuranScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
-    val purple = Color(0xFF9B5DE5)
+
 
     Scaffold(
 

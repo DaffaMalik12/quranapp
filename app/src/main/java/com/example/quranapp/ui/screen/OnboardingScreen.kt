@@ -50,7 +50,7 @@ fun OnboardingScreen(navController: NavController) {
         delay(2500) // Fade-out sebelum navigasi
         isVisible = false
         delay(500) // Tunggu animasi fade-out selesai
-        navController.navigate("quran")
+        navController.navigate("login")
     }
 
     Box(

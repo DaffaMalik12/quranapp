@@ -13,14 +13,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.quranapp.ui.component.BottomNavigationBar
+import com.example.quranapp.ui.theme.purple
 import com.example.quranapp.viewmodel.SholatViewModel
 
 @Composable
 fun KalenderScreen(navController: NavController, sholatViewModel: SholatViewModel = viewModel()) {
     val prayerSchedule by sholatViewModel.prayerSchedule.collectAsState()
 
-    val purple = Color(0xFF9B5DE5)
-    val lightPurple = Color(0xFFF2E7FE)
+
 
     LaunchedEffect(Unit) {
         sholatViewModel.fetchPrayerSchedule(1631, 2025, 2) // Contoh: Jakarta, Juni 2025
