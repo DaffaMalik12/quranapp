@@ -14,6 +14,8 @@ import androidx.navigation.navArgument
 //import com.example.quranapp.data.api.ApiService
 import com.example.quranapp.data.repository.QuranRepository
 import com.example.quranapp.ui.screen.DetailScreen
+import com.example.quranapp.ui.screen.KalenderScreen
+import com.example.quranapp.ui.screen.ProfileScreen
 //import com.example.quranapp.ui.screen.OnboardingScreen
 import com.example.quranapp.ui.screen.QuranScreen
 import com.example.quranapp.ui.theme.QuranAppTheme
@@ -49,6 +51,12 @@ fun QuranApp(repository: QuranRepository) {
         }
         composable("quran") {
             QuranScreen(navController = navController)
+        }
+        composable("kalender") {
+            KalenderScreen(navController = navController)
+        }
+        composable("profile") {
+            ProfileScreen(navController = navController)
         }
         composable(
             "SurahDetail/{surahId}",

@@ -103,7 +103,7 @@ fun DetailScreen(
                                 fontSize = 16.sp,
                                 modifier = Modifier.padding(bottom = 16.dp)
                             )
-                            val arabicFont = FontFamily(Font(R.font.amiriquranregular))
+                            val arabicFont = FontFamily(Font(R.font.amiribold))
                             LazyColumn {
                                 items(surah.ayahs ?: emptyList()) { ayah ->
                                     val arabText = ayah.arab.ifEmpty { "Teks tidak tersedia" }

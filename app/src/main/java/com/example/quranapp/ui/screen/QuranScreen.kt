@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.quranapp.ui.component.BottomNavigationBar
 import com.example.quranapp.ui.model.SurahInfo
 import com.example.quranapp.ui.viewmodel.QuranViewModel
 import com.google.android.material.tabs.TabItem
@@ -35,28 +36,10 @@ fun QuranScreen(
     val error by viewModel.error.collectAsState()
 
     val purple = Color(0xFF9B5DE5)
-    val lightPurple = Color(0xFFF2E7FE)
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { },
-                navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Default.Menu, "Menu", tint = Color.Black)
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Default.Search, "Search", tint = Color.Black)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White
-                )
-            )
-        },
-        bottomBar = { BottomNavigationBar() }
+
+        bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -131,17 +114,6 @@ fun QuranScreen(
                         )
                     }
                 }
-
-                // Tab Row
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(bottom = 16.dp),
-//                    horizontalArrangement = Arrangement.SpaceEvenly
-//                ) {
-//                    TabItem("Surah", false)
-//                    TabItem("Juz", false)
-//                }
 
                 // Loading and Error States
                 when {
@@ -246,38 +218,26 @@ fun SurahItem(surah: SurahInfo?, navController: NavController) {
     }
 }
 
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar(
-        containerColor = Color.White,
-        tonalElevation = 8.dp
-    ) {
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-            selected = true,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color(0xFF9B5DE5),
-                unselectedIconColor = Color.Gray
-            )
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.DateRange, contentDescription = "Quran") },
-            selected = false,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color(0xFF9B5DE5),
-                unselectedIconColor = Color.Gray
-            )
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-            selected = false,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color(0xFF9B5DE5),
-                unselectedIconColor = Color.Gray
-            )
-        )
-    }
-}
+//@Composable
+//fun BottomNavigationBar(navController: NavController) {
+//    NavigationBar(containerColor = Color.White) {
+//        NavigationBarItem(
+//            icon = { Icon(Icons.Default.Home, contentDescription = "Quran") },
+//            selected = false,
+//            onClick = { navController.navigate("quran") },
+//            colors = NavigationBarItemDefaults.colors(selectedIconColor = Color(0xFF9B5DE5))
+//        )
+//        NavigationBarItem(
+//            icon = { Icon(Icons.Default.DateRange, contentDescription = "Kalender") },
+//            selected = false,
+//            onClick = { navController.navigate("kalender") },
+//            colors = NavigationBarItemDefaults.colors(selectedIconColor = Color(0xFF9B5DE5))
+//        )
+//        NavigationBarItem(
+//            icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
+//            selected = false,
+//            onClick = { navController.navigate("profile") },
+//            colors = NavigationBarItemDefaults.colors(selectedIconColor = Color(0xFF9B5DE5))
+//        )
+//    }
+//}
